@@ -29,14 +29,13 @@ FROM --platform=$BUILDPLATFORM node:20-alpine AS node-builder
 WORKDIR /app
 
 COPY frontend/package.json frontend/package-lock.json frontend/.npmrc ./
-ARG FONTAWESOME_NPM_AUTH_TOKEN
 RUN npm ci
 
 COPY frontend/ ./
 RUN npm run build
 
 
-FROM alpine:3.20 as backend
+FROM alpine:3.20 AS backend
 WORKDIR /app
 
 RUN apk add --no-cache tzdata
@@ -55,5 +54,5 @@ USER $UID
 CMD ["./portfolio", "serve", "--http=0.0.0.0:80", "--dir=/data", "--public=public"]
 
 
-FROM backend as all-in-one
+FROM backend AS all-in-one
 COPY --from=node-builder /app/dist ./public
