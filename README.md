@@ -9,13 +9,13 @@
 
 </div>
 
-### 🇬🇧 𝗘𝗡𝗚
+### <img src="https://flagpedia.net/data/flags/w580/gb.webp" width="24"/> 𝗘𝗡𝗚
 
 This is the source code for my personal website. It is a personal website that showcases my projects and skills.
 
 It also serves as a portfolio of opportunities for potential Msc. / PhD students to work with me as a supervisor.
 
-### 🇵🇹 𝗣𝗧
+### <img src="https://flagpedia.net/data/flags/w580/pt.webp" width="18"/> 𝗣𝗧 
 
 Este é o código fonte do meu website pessoal. É um website pessoal que mostra os meus projetos e competências.
 
