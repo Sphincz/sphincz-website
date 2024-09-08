@@ -60,7 +60,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/gabe565/portfolio
+            ghcr.io/Sphincz/sphincz-website
           tags: |
             type=raw,priority=1000,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=semver,pattern={{version}}
@@ -108,34 +108,13 @@ jobs:
         run: npm --prefix=frontend install --prefer-offline --no-audit
       - name: Build
         env:
-          VITE_API_ADDRESS: https://api.gabecook.com
-          VITE_PLAUSIBLE_HOST: https://analytics.gabe565.com
-          VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
-          VITE_TURNSTILE_KEY: ${{ secrets.VITE_TURNSTILE_KEY }}
+          VITE_API_ADDRESS: https://api.sphincz.ovh
         run: npm --prefix=frontend run build
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: frontend/dist
-
-  deploy-prod:
-    name: Deploy (prod)
-    needs: [backend-lint, backend-test, frontend-lint, build-backend, build-frontend]
-    if: startsWith(github.ref, 'refs/tags/v')
-    concurrency:
-      group: deploy-prod
-      cancel-in-progress: true
-    uses: ./.github/workflows/deploy.yaml
-    with:
-      environment: prod
-      url: https://gabecook.com
-      path: ${{ vars.path }}
-      digest: ${{ needs.build-backend.outputs.digest }}
-    secrets:
-      infra-ssh-key: ${{ secrets.INFRA_SSH_KEY }}
-      cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
   release:
     name: Release
@@ -149,7 +128,7 @@ jobs:
           fetch-depth: 0
       - name: Generate Changelog
         id: changelog
-        uses: gabe565/changelog-generator@v1
+        uses: Sphincz/changelog-generator@v1
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
