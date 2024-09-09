@@ -3,10 +3,9 @@ import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import SkillsView from "../views/SkillsView.vue";
 import ProjectsView from "../views/ProjectsView.vue";
-import ConnectView from "../views/ContactView.vue";
+import ContactView from "../views/ContactView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import { ApiPath } from "../config/api";
-import ContactView from "../views/ContactView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
