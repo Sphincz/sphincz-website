@@ -80,7 +80,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          dockerfile: Dockerfile.prod
+          file: Dockerfile.prod
           pull: true
           push: ${{ github.ref_name == 'main' || startsWith(github.ref, 'refs/tags/v') }}
           platforms: linux/amd64
