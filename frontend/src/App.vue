@@ -68,8 +68,8 @@ const toggleNav = (show) => {
   >
     <div class="container">
       <router-link to="/" class="navbar-brand" @click="toggleNav(false)">
-        <span aria-hidden="true">&lt; gabe.cook &gt;</span>
-        <span class="visually-hidden">Gabe Cook</span>
+        <span aria-hidden="true">&lt; sphincz &gt;</span>
+        <span class="visually-hidden">António Raimundo</span>
       </router-link>
       <button
         class="navbar-toggler navbar-toggler-right"
@@ -103,9 +103,9 @@ const toggleNav = (show) => {
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/connect" class="nav-link rounded" @click="toggleNav(false)">
+            <router-link to="/contact" class="nav-link rounded" @click="toggleNav(false)">
               <mail-icon />
-              Connect
+              Contact
             </router-link>
           </li>
         </ul>

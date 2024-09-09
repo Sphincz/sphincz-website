@@ -10,6 +10,8 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "8090:8090"
+    env_file:
+      - ./.env
     volumes:
       - ./pb_data:/data                # Mount data directory for persistent data
       - ./migrations:/app/migrations   # Mount migrations directory for live updates
@@ -28,7 +30,10 @@ services:
       - /app/node_modules  # Avoid overriding node_modules
     ports:
       - "3000:3000"  # Expose port 3000 for the frontend
+    env_file:
+      - ./.env
     environment:
       - VITE_API_ADDRESS=http://localhost:8090
+      - VITE_TURNSTILE_KEY=${VITE_TURNSTILE_KEY}
       - NODE_ENV=development
     command: npm run dev  # Start the dev server with hot reloading

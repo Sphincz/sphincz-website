@@ -30,7 +30,7 @@
             goals.
           </p>
           <p>
-            <router-link to="/connect">Feel free to reach out!</router-link>
+            <router-link to="/contact">Feel free to reach out!</router-link>
           </p>
         </div>
       </div>

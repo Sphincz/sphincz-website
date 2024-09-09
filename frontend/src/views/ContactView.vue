@@ -3,7 +3,7 @@
     <div class="container pb-5">
       <div class="row mb-4">
         <div class="col">
-          <h1>Connect</h1>
+          <h1>Contact</h1>
         </div>
       </div>
       <div class="row">
