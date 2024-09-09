@@ -1,0 +1,62 @@
+#syntax=docker/dockerfile:1.9
+
+# Build stage for Go backend
+FROM --platform=$BUILDPLATFORM golang:1.23.1-alpine AS go-builder
+WORKDIR /app
+
+# Copy Go dependencies files
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy the Go source code and other necessary files
+COPY *.go ./
+COPY migrations/ migrations/
+COPY internal/ internal/
+RUN apk add build-base
+
+# Set Golang build envs based on Docker platform string
+ARG TARGETPLATFORM
+RUN <<EOT
+  set -eux
+  case "$TARGETPLATFORM" in
+    'linux/amd64') export GOARCH=amd64 ;;
+    'linux/arm/v6') export GOARCH=arm GOARM=6 ;;
+    'linux/arm/v7') export GOARCH=arm GOARM=7 ;;
+    'linux/arm64') export GOARCH=arm64 ;;
+    *) echo "Unsupported target: $TARGETPLATFORM" && exit 1 ;;
+  esac
+  export CGO_ENABLED=1
+  go build -o portfolio -ldflags='-w -s' -trimpath -tags disable_automigrate  # Ensure binary is named 'portfolio'
+EOT
+
+# Runtime stage
+FROM alpine:3.20 AS backend
+WORKDIR /app
+
+# Install necessary system dependencies
+RUN apk add --no-cache tzdata
+
+# Create a non-root user for running the app
+ARG USERNAME=portfolio
+ARG UID=1000
+ARG GID=$UID
+RUN addgroup -g "$GID" "$USERNAME" \
+    && adduser -S -u "$UID" -G "$USERNAME" "$USERNAME"
+
+# Create required directories and set permissions
+RUN mkdir pb_data && chown 1000:1000 -R pb_data
+
+# Copy the built Go binary from the builder stage
+COPY --from=go-builder /app/portfolio /app/portfolio
+
+# Ensure the binary is executable
+RUN chmod +x /app/portfolio
+
+# Switch to the non-root user
+USER $USERNAME
+
+# Expose port 80 for backend
+EXPOSE 80
+
+# Start the backend
+CMD ["./portfolio", "serve", "--http=0.0.0.0:8090", "--dir=/data", "--public=public"]

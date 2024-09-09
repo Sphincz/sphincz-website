@@ -4,9 +4,11 @@
 .github/
 .idea/
 .pre-commit-config.yaml
-Dockerfile
+Dockerfile.dev
+Dockerfile.prod
 pb_data/
-docker-compose.yml
+docker-compose.env.yml
+docker-compose.prod.yml
 frontend/README.md
 frontend/dist/
 frontend/node_modules/

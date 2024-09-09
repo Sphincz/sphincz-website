@@ -1,6 +1,6 @@
 #syntax=docker/dockerfile:1.9
 
-FROM --platform=$BUILDPLATFORM golang:1.23.0-alpine AS go-builder
+FROM --platform=$BUILDPLATFORM golang:1.23.1-alpine AS go-builder
 WORKDIR /app
 
 COPY go.mod go.sum ./
@@ -9,6 +9,7 @@ RUN go mod download
 COPY *.go ./
 COPY migrations/ migrations/
 COPY internal/ internal/
+RUN apk add build-base
 
 # Set Golang build envs based on Docker platform string
 ARG TARGETPLATFORM
@@ -21,11 +22,12 @@ RUN <<EOT
     'linux/arm64') export GOARCH=arm64 ;;
     *) echo "Unsupported target: $TARGETPLATFORM" && exit 1 ;;
   esac
+  export CGO_ENABLED=1
   go build -ldflags='-w -s' -trimpath -tags disable_automigrate
 EOT
 
 
-FROM --platform=$BUILDPLATFORM node:20-alpine AS node-builder
+FROM --platform=$BUILDPLATFORM node:22.8.0-alpine AS node-builder
 WORKDIR /app
 
 COPY frontend/package.json frontend/package-lock.json frontend/.npmrc ./
@@ -46,11 +48,11 @@ ARG GID=$UID
 RUN addgroup -g "$GID" "$USERNAME" \
     && adduser -S -u "$UID" -G "$USERNAME" "$USERNAME"
 
-RUN mkdir pb_data && chown 1000:1000 pb_data
+RUN mkdir pb_data && chown 1000:1000 -R pb_data
 
 COPY --from=go-builder /app/portfolio ./
 
-USER $UID
+USER $USERNAME
 CMD ["./portfolio", "serve", "--http=0.0.0.0:80", "--dir=/data", "--public=public"]
 
 
