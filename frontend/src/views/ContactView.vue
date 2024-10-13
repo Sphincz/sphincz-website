@@ -19,14 +19,17 @@
 					<div class="col-lg-8 mx-auto">
 						<ul class="list-inline banner-social-buttons">
 							<li class="list-inline-item">
-								<a :href="ApiPath('/to/github')" class="btn btn-outline-primary btn-lg" target="_blank">
+								<a
+									href="https://github.com/Sphincz/"
+									class="btn btn-outline-primary btn-lg"
+									target="_blank">
 									<github-icon class="me-1" fixed-width fill />
 									<span class="network-name">Github</span>
 								</a>
 							</li>
 							<li class="list-inline-item">
 								<a
-									:href="ApiPath('/to/linkedin')"
+									href="https://www.linkedin.com/in/sphincz/"
 									class="btn btn-outline-primary btn-lg"
 									target="_blank">
 									<linkedin-icon class="me-1" fixed-width fill />
