@@ -125,16 +125,14 @@ onMounted(() => {
 					</li>
 					<!-- Language Dropdown -->
 					<li class="nav-item dropdown">
-						<a
+						<button
 							id="languageDropdown"
 							class="nav-link dropdown-toggle"
-							href="#"
-							role="button"
 							data-bs-toggle="dropdown"
 							aria-expanded="false">
 							<FlagIcon :code="currentLanguage.code" :size="14" />
 							{{ currentLanguage.name }}
-						</a>
+						</button>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="languageDropdown">
 							<li>
 								<a class="dropdown-item fw-light" href="#" @click.prevent="changeLanguage('en')">
