@@ -1,10 +1,10 @@
-import Plausible from "plausible-tracker";
+import Plausible from "plausible-tracker"
 
 export const plausible = Plausible({
-  apiHost: import.meta.env.VITE_PLAUSIBLE_HOST,
-});
+	apiHost: import.meta.env.VITE_PLAUSIBLE_HOST,
+})
 
 if (import.meta.env.VITE_PLAUSIBLE_HOST) {
-  plausible.enableAutoPageviews();
-  plausible.enableAutoOutboundTracking();
+	plausible.enableAutoPageviews()
+	plausible.enableAutoOutboundTracking()
 }
