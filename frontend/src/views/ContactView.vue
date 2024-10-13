@@ -169,7 +169,7 @@ const submit = async () => {
 			await pb.collection("contact_form").create(formData.value, {
 				headers: { "X-Captcha": captchaValue },
 			})
-			// await wait
+			await wait
 			success.value = true
 		} catch (e) {
 			console.error(e.data)
