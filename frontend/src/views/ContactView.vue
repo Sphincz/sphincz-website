@@ -54,7 +54,6 @@
 							data-focus="false"
 							method="post"
 							:action="ApiPath('/api/mail')"
-							role="form"
 							novalidate
 							@submit.prevent="submit">
 							<fieldset>

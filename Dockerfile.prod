@@ -9,7 +9,7 @@ RUN go mod download
 COPY *.go ./
 COPY migrations/ migrations/
 COPY internal/ internal/
-RUN apk add build-base
+RUN apk --no-cache add build-base
 
 # Set Golang build envs based on Docker platform string
 ARG TARGETPLATFORM
@@ -46,15 +46,13 @@ ARG USERNAME=portfolio
 ARG UID=1000
 ARG GID=$UID
 RUN addgroup -g "$GID" "$USERNAME" \
-    && adduser -S -u "$UID" -G "$USERNAME" "$USERNAME"
-
-RUN mkdir pb_data && chown 1000:1000 -R pb_data
+    && adduser -S -u "$UID" -G "$USERNAME" "$USERNAME" \
+    && mkdir pb_data && chown 1000:1000 -R pb_data
 
 COPY --from=go-builder /app/portfolio ./
 
 USER $USERNAME
 CMD ["./portfolio", "serve", "--http=0.0.0.0:80", "--dir=/data", "--public=public"]
-
 
 FROM backend AS all-in-one
 COPY --from=node-builder /app/dist ./public
