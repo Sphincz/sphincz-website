@@ -1,8 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>gabe565/renovate-config",
-    "local>gabe565/renovate-config:golang"
+    "local>Sphincz/renovate-config",
+    "local>Sphincz/renovate-config:golang"
   ],
   "packageRules": [
     {
