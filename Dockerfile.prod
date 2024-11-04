@@ -1,11 +1,14 @@
 #syntax=docker/dockerfile:1.9
 
+# Build stage for Go backend
 FROM --platform=$BUILDPLATFORM golang:1.23.2-alpine AS go-builder
 WORKDIR /app
 
+# Copy Go dependencies files
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Copy the Go source code and other necessary files
 COPY *.go ./
 COPY migrations/ migrations/
 COPY internal/ internal/
@@ -26,7 +29,7 @@ RUN <<EOT
   go build -ldflags='-w -s' -trimpath -tags disable_automigrate
 EOT
 
-
+# React frontend build stage
 FROM --platform=$BUILDPLATFORM node:22.8.0-alpine AS node-builder
 WORKDIR /app
 
@@ -36,12 +39,14 @@ RUN npm ci
 COPY frontend/ ./
 RUN npm run build
 
-
+# Runtime stage
 FROM alpine:3.20 AS backend
 WORKDIR /app
 
+# Install necessary system dependencies
 RUN apk add --no-cache tzdata
 
+# Create a non-root user for running the app
 ARG USERNAME=portfolio
 ARG UID=1000
 ARG GID=$UID
@@ -49,7 +54,8 @@ RUN addgroup -g "$GID" "$USERNAME" \
     && adduser -S -u "$UID" -G "$USERNAME" "$USERNAME" \
     && mkdir pb_data && chown 1000:1000 -R pb_data
 
-COPY --from=go-builder /app/portfolio ./
+# Copy the built Go binary from the builder stage
+COPY --from=go-builder /app/portfolio /app/portfolio
 
 USER $USERNAME
 CMD ["./portfolio", "serve", "--http=0.0.0.0:80", "--dir=/data", "--public=public"]

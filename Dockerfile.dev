@@ -53,8 +53,8 @@ RUN chmod +x /app/portfolio
 # Switch to the non-root user
 USER $USERNAME
 
-# Expose port 80 for backend
-EXPOSE 80
+# Expose port 8090 for backend
+EXPOSE 8090
 
 # Start the backend
 CMD ["./portfolio", "serve", "--http=0.0.0.0:8090", "--dir=/data", "--public=public"]
