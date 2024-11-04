@@ -23,7 +23,7 @@ func main() {
 		Automigrate: automigrateEnabled(),
 	})
 
-	ctx, cancel := context.WithCancel(context.Background())
+	_, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	app.OnTerminate().Add(func(_ *core.TerminateEvent) error {
@@ -33,7 +33,7 @@ func main() {
 
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		slog.SetDefault(app.Logger())
-		return handlers.RegisterLocalHandlers(ctx, e, app)
+		return handlers.RegisterLocalHandlers(e, app)
 	})
 
 	app.OnRecordBeforeCreateRequest("contact_form").Add(captcha.Verify)
