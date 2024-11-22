@@ -4,5 +4,8 @@
 		"skills": "Competências",
 		"projects": "Projetos",
 		"contact": "Contato"
+	},
+	"misc": {
+		"homepage": "Página Inicial"
 	}
 }

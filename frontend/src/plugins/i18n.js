@@ -10,6 +10,7 @@ const i18n = createI18n({
 	messages,
 })
 export default i18n
+export { i18n }
 
 const availableLanguages = {
 	en: { name: "English", code: "gb" },

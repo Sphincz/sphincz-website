@@ -31,36 +31,6 @@
 					</p>
 				</div>
 			</div>
-			<section>
-				<div class="row">
-					<div class="col">
-						<h2 class="h3">Stats</h2>
-					</div>
-				</div>
-				<div class="row g-0 mb-3 justify-content-center">
-					<div class="col-auto">
-						<img
-							:src="ApiPath('/api/github-stats/stats')"
-							alt="Gabe Cook's GitHub stats"
-							style="min-height: 195px" />
-					</div>
-					<div class="col-auto">
-						<img
-							:src="ApiPath('/api/github-stats/top-langs')"
-							alt="Most Used Languages"
-							style="min-height: 165px" />
-					</div>
-				</div>
-			</section>
 		</div>
-		<section>
-			<h2 class="h3 visually-hidden">Map of Oklahoma City</h2>
-			<GMapMap :center="mapData.center" :options="mapData.options" style="width: 100%; height: 100%"></GMapMap>
-		</section>
 	</section>
 </template>
-
-<script setup>
-import mapData from "../data/mapOptions"
-import { ApiPath } from "../config/api"
-</script>

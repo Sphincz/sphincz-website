@@ -4,5 +4,8 @@
 		"skills": "Skills",
 		"projects": "Projects",
 		"contact": "Contact"
+	},
+	"misc": {
+		"homepage": "Homepage"
 	}
 }

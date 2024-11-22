@@ -6,6 +6,7 @@ import ProjectsView from "../views/ProjectsView.vue"
 import ContactView from "../views/ContactView.vue"
 import NotFoundView from "../views/NotFoundView.vue"
 import { ApiPath } from "../config/api"
+import { i18n } from "../plugins/i18n"
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,27 +15,27 @@ const router = createRouter({
 		{
 			path: "/",
 			component: HomeView,
-			meta: { title: "Home" },
+			meta: { title: "misc.homepage" },
 		},
 		{
 			path: "/about",
 			component: AboutView,
-			meta: { title: "About" },
+			meta: { title: "navbar.about" },
 		},
 		{
 			path: "/skills",
 			component: SkillsView,
-			meta: { title: "Skills" },
+			meta: { title: "navbar.skills" },
 		},
 		{
 			path: "/projects",
 			component: ProjectsView,
-			meta: { title: "Projects" },
+			meta: { title: "navbar.projects" },
 		},
 		{
 			path: "/contact",
 			component: ContactView,
-			meta: { title: "Contact" },
+			meta: { title: "navbar.contact" },
 		},
 		{
 			path: "/_",
@@ -52,9 +53,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 	if (to.meta.title && to.meta.title !== "Home") {
-		document.title = to.meta.title + " | " + " Gabe Cook"
+		const translatedTitle = i18n.global.t(to.meta.title) // Use the i18n instance
+		document.title = `${translatedTitle} @ Sphincz Personal Website`
 	} else {
-		document.title = "Gabe Cook"
+		document.title = "Sphincz Personal Website"
 	}
 	next()
 })

@@ -13,7 +13,7 @@
 
 This is the source code for my personal website. It is a personal website that showcases my projects and skills.
 
-It also serves as a portfolio of opportunities for potential Msc. / PhD students to work with me as a supervisor.
+It also serves as a portfolio of opportunities for potential MSc / PhD students to work with me as a supervisor.
 
 ### <img src="https://flagpedia.net/data/flags/w580/pt.webp" width="18"/> 𝗣𝗧 
 
