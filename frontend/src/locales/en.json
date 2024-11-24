@@ -14,7 +14,29 @@
 		"desc4": "If you are a prospective MSc or PhD student looking for opportunities to work on cutting-edge topics under my supervision, or if you are simply curious about my work, {contactMe}. I’m always excited to collaborate and explore new possibilities.",
 		"contactme": "feel free to reach out!"
 	},
+	"skills": {
+		"title": "Skills",
+		"description": "A list of skills and topics that I'm proficient in on a scale of 1-5 stars. Note that the scale is relative to the other skills, so a 5 star rating means that I'm most confortable with that tool / framework / language, not that I'm perfect at it."
+	},
+	"projects": {
+		"title": "Projects",
+		"description": "A selection of projects that I have worked on, ranging from academic research, industry collaborations to personal projects. There are also some ideas that I need worforce to implement, so if you are interested in collaborating, {contactMe}."
+	},
+	"contact": {
+		"title": "Contact",
+		"description": "If you want to get in touch with me, feel free to send me a message using the form below. I'll get back to you as soon as possible.",
+		"form": {
+			"title": "Send Message",
+			"name": "Name",
+			"email": "Email Address",
+			"message": "Message",
+			"send": "Send"
+		}
+	},
 	"misc": {
-		"homepage": "Homepage"
+		"homepage": "Homepage",
+		"loading": "Loading...",
+		"message_error": "An error occurred while sending the message. Please try again later.",
+		"message_success": "Message sent successfully! I'll get back to you as soon as possible."
 	}
 }

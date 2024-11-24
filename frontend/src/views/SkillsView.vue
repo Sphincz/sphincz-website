@@ -3,20 +3,18 @@
 		<div class="container">
 			<div class="row mb-4">
 				<div class="col">
-					<h1>Skills</h1>
+					<h1>{{ t("skills.title") }}</h1>
 				</div>
 			</div>
 			<div class="row mb-4">
 				<div class="col-md-9 mx-auto">
-					A list of skills and languages that I'm proficient in on a scale of 1-5 stars. Note that the scale
-					is relative to the other languages that I have used, so a 5 star rating means that I'm most familiar
-					with that language, not that I'm perfect at it.
+					{{ t("skills.description") }}
 				</div>
 			</div>
 			<div v-if="loading" class="row">
 				<div class="col">
 					<div class="spinner-border text-primary mt-5" role="status">
-						<span class="visually-hidden">Loading...</span>
+						<span class="visually-hidden">{{ t("misc.loading") }}</span>
 					</div>
 				</div>
 			</div>
@@ -72,10 +70,12 @@
 import { ref } from "vue"
 import pb from "../plugins/pocketbase"
 import StarRating from "../components/StarRating.vue"
+import { useI18n } from "vue-i18n"
 
 const skills = ref([])
 const loading = ref(true)
 const error = ref()
+const { t } = useI18n()
 
 const fetchData = async () => {
 	try {
@@ -104,9 +104,3 @@ const fetchData = async () => {
 
 fetchData()
 </script>
-
-<style lang="scss">
-.opacity-15 {
-	opacity: 0.15;
-}
-</style>

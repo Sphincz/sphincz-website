@@ -14,7 +14,29 @@
 		"desc4": "Se é um estudante de mestrado ou doutoramento à procura de oportunidades para trabalhar nas áreas referidas acima sob a minha supervisão, ou se simplesmente tem curiosidade sobre o meu trabalho, {contactMe}.",
 		"contactme": "não hesite em contactar-me!"
 	},
+	"skills": {
+		"title": "Competências",
+		"description": "Uma lista de competências e tópicos em que sou proficiente, numa escala de 1 a 5 estrelas. A escala é relativa às outras competências, pelo que uma classificação de 5 estrelas significa que me sinto mais confortável, mas não perfeito."
+	},
+	"projects": {
+		"title": "Projetos",
+		"description": "Uma seleção de projetos em que trabalhei, investigação académica, colaborações com a indústria e projetos pessoais. Existem também algumas ideias que preciso de mão-de-obra para implementar, por isso, se estiver interessado em colaborar, {contactMe}."
+	},
+	"contact": {
+		"title": "Contacto",
+		"description": "Se deseja entrar em contacto comigo, envie-me uma mensagem utilizando o formulário abaixo. Responder-lhe-ei o mais rapidamente possível.",
+		"form": {
+			"title": "Enviar Mensagem",
+			"name": "Nome",
+			"email": "Endereço de Email",
+			"message": "Mensagem",
+			"send": "Enviar"
+		}
+	},
 	"misc": {
-		"homepage": "Página Inicial"
+		"homepage": "Página Inicial",
+		"loading": "A carregar...",
+		"contact_send_error": "Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente mais tarde.",
+		"contact_send_success": "Mensagem enviada com sucesso! Responder-lhe-ei o mais rapidamente possível."
 	}
 }

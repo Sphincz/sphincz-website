@@ -3,18 +3,22 @@
 		<div class="container pb-5">
 			<div class="row mb-4">
 				<div class="col">
-					<h1>Projects</h1>
+					<h1>{{ t("projects.title") }}</h1>
 				</div>
 			</div>
 			<div class="row mb-3">
 				<div class="col">
-					<p>Here are some of my best projects!</p>
+					<i18n-t keypath="projects.description">
+						<template #contactMe>
+							<router-link to="/contact">{{ t("about.contactme") }}</router-link>
+						</template>
+					</i18n-t>
 				</div>
 			</div>
 			<div v-if="loading" class="row">
 				<div class="col">
 					<div class="spinner-border text-primary" role="status">
-						<span class="visually-hidden">Loading...</span>
+						<span class="visually-hidden">{{ t("misc.loading") }}</span>
 					</div>
 				</div>
 			</div>
@@ -84,10 +88,12 @@ import { ref, shallowRef } from "vue"
 import pb from "../plugins/pocketbase"
 import GitHubIcon from "~icons/simple-icons/github"
 import GlobeIcon from "~icons/mdi/web"
+import { useI18n } from "vue-i18n"
 
 const projects = shallowRef([])
 const loading = ref(true)
 const error = ref()
+const { t } = useI18n()
 
 const fetchData = async () => {
 	try {
@@ -99,7 +105,7 @@ const fetchData = async () => {
 		projects.value = response.map((project) => {
 			let image = ""
 			if (project.image) {
-				image = pb.getFileUrl(project, project.image)
+				image = pb.files.getURL(project, project.image)
 			}
 			let icon = GlobeIcon
 			if (project.url.match(/^https:\/\/github\.com/)) {

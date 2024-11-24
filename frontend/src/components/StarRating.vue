@@ -30,4 +30,8 @@ const props = defineProps({
 svg {
 	height: 1.15em;
 }
+
+.opacity-15 {
+	opacity: 0.15;
+}
 </style>
