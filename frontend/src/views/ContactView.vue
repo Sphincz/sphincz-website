@@ -82,7 +82,7 @@
 											id="nameInput"
 											v-model="formData.name"
 											name="name"
-											placeholder="Jane Doe"
+											placeholder="John Doe"
 											class="form-control"
 											type="text"
 											required />
@@ -99,7 +99,7 @@
 											id="emailInput"
 											v-model="formData.email"
 											name="email"
-											placeholder="name@example.com"
+											placeholder="john@doe.com"
 											class="form-control"
 											type="email"
 											required />
