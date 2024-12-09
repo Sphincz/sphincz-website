@@ -2,10 +2,11 @@ package captcha
 
 import (
 	"errors"
+	"os"
+
 	"github.com/Sphincz/sphincz-website/internal/config"
 	"github.com/meyskens/go-turnstile"
 	"github.com/pocketbase/pocketbase/core"
-	"os"
 )
 
 var ErrInvalidCaptcha = errors.New("invalid captcha")
