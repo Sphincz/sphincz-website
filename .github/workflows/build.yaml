@@ -8,7 +8,7 @@ on:
 jobs:
   backend-lint:
     name: Backend Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,12 +19,10 @@ jobs:
           cache: false
       - name: Lint
         uses: golangci/golangci-lint-action@v6
-        with:
-          version: v1.60
 
   frontend-lint:
     name: Frontend Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js for use with actions
@@ -39,7 +37,7 @@ jobs:
 
   build-backend:
     name: Build Backend Image
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       digest: ${{ steps.docker_build.outputs.digest }}
     steps:
@@ -84,7 +82,7 @@ jobs:
 
   build-frontend:
     name: Build Frontend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -111,7 +109,7 @@ jobs:
 
   release:
     name: Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [backend-lint, frontend-lint, build-backend, build-frontend]
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
