@@ -1,7 +1,7 @@
 #syntax=docker/dockerfile:1.9
 
 # Build stage for Go backend
-FROM --platform=$BUILDPLATFORM golang:1.23.2-alpine AS go-builder
+FROM --platform=$BUILDPLATFORM golang:1.23.4-alpine AS go-builder
 WORKDIR /app
 
 # Copy Go dependencies files
@@ -58,7 +58,7 @@ RUN addgroup -g "$GID" "$USERNAME" \
 COPY --from=go-builder /app/portfolio /app/portfolio
 
 USER $USERNAME
-CMD ["./portfolio", "serve", "--http=0.0.0.0:80", "--dir=/data", "--public=public"]
+CMD ["./portfolio", "serve", "--http=0.0.0.0:80", "--dir=/data"]
 
 FROM backend AS all-in-one
 COPY --from=node-builder /app/dist ./public

@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/Sphincz/sphincz-website/internal/captcha"
+	"github.com/Sphincz/sphincz-website/internal/config"
 	"github.com/Sphincz/sphincz-website/internal/contactform"
 	"github.com/Sphincz/sphincz-website/internal/handlers"
 	_ "github.com/Sphincz/sphincz-website/migrations"
@@ -16,8 +17,7 @@ import (
 
 func main() {
 	app := pocketbase.New()
-	handlers.Flags(app.RootCmd)
-	captcha.Flags(app.RootCmd)
+	conf := config.New()
 
 	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
 		Automigrate: automigrateEnabled(),
@@ -26,18 +26,26 @@ func main() {
 	_, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	app.OnTerminate().Add(func(_ *core.TerminateEvent) error {
+	app.OnTerminate().BindFunc(func(e *core.TerminateEvent) error {
 		cancel()
-		return nil
+		return e.Next()
 	})
 
-	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+	app.OnServe().BindFunc(func(e *core.ServeEvent) error {
+		if err := conf.Load(app.RootCmd); err != nil {
+			return err
+		}
+
 		slog.SetDefault(app.Logger())
-		return handlers.RegisterLocalHandlers(e, app)
-	})
 
-	app.OnRecordBeforeCreateRequest("contact_form").Add(captcha.Verify)
-	app.OnModelAfterCreate("contact_form").Add(contactform.Notify(app))
+		app.OnRecordCreateRequest("contact_form").BindFunc(captcha.Verify(conf))
+		app.OnModelAfterCreateSuccess("contact_form").BindFunc(contactform.Notify(app))
+
+		e.Router.GET("/{path...}", handlers.Static(conf))
+		e.Router.GET("/to/{handle}", handlers.Redirect())
+
+		return e.Next()
+	})
 
 	if err := app.Start(); err != nil {
 		slog.Error("PocketBase returned an error", "error", err)

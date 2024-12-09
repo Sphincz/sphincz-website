@@ -3,18 +3,11 @@ package handlers
 import (
 	"os"
 
-	"github.com/labstack/echo/v5"
+	"github.com/Sphincz/sphincz-website/internal/config"
 	"github.com/pocketbase/pocketbase/apis"
-	"github.com/spf13/cobra"
+	"github.com/pocketbase/pocketbase/core"
 )
 
-//nolint:gochecknoglobals
-var publicDir string
-
-func Flags(cmd *cobra.Command) {
-	cmd.PersistentFlags().StringVar(&publicDir, "public", "frontend/dist", "Public directory")
-}
-
-func StaticHandler() echo.HandlerFunc {
-	return apis.StaticDirectoryHandler(os.DirFS(publicDir), true)
+func Static(conf *config.Config) func(*core.RequestEvent) error {
+	return apis.Static(os.DirFS(conf.PublicDir), true)
 }

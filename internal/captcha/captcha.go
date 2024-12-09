@@ -2,45 +2,29 @@ package captcha
 
 import (
 	"errors"
-	"os"
-
+	"github.com/Sphincz/sphincz-website/internal/config"
 	"github.com/meyskens/go-turnstile"
 	"github.com/pocketbase/pocketbase/core"
-	"github.com/spf13/cobra"
+	"os"
 )
-
-//nolint:gochecknoglobals
-var turnstileSecret string
-
-func Flags(cmd *cobra.Command) {
-	defaultTurnstileSecret := "1x0000000000000000000000000000000AA"
-	if env := os.Getenv("TURNSTILE_SECRET"); env != "" {
-		defaultTurnstileSecret = env
-	}
-
-	cmd.PersistentFlags().StringVar(
-		&turnstileSecret,
-		"turnstile-secret",
-		defaultTurnstileSecret,
-		"Turnstile captcha secret key",
-	)
-}
 
 var ErrInvalidCaptcha = errors.New("invalid captcha")
 
-func Verify(e *core.RecordCreateEvent) error {
-	if turnstileSecret != "" {
-		ts := turnstile.New(turnstileSecret)
-		val := e.HttpContext.Request().Header.Get("X-Captcha")
+func Verify(conf *config.Config) func(*core.RecordRequestEvent) error {
+	return func(e *core.RecordRequestEvent) error {
+		if conf.Turnstile.Secret != "" {
+			ts := turnstile.New(os.Getenv("TURNSTILE_SECRET"))
+			val := e.Request.Header.Get("X-Captcha")
 
-		resp, err := ts.Verify(val, e.HttpContext.RealIP())
-		if err != nil {
-			return err
-		}
+			resp, err := ts.Verify(val, e.RealIP())
+			if err != nil {
+				return err
+			}
 
-		if !resp.Success {
-			return ErrInvalidCaptcha
+			if !resp.Success {
+				return ErrInvalidCaptcha
+			}
 		}
+		return e.Next()
 	}
-	return nil
 }
