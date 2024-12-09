@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.9
+#syntax=docker/dockerfile:1.12
 
 # Build stage for Go backend
 FROM --platform=$BUILDPLATFORM golang:1.23.4-alpine AS go-builder
@@ -57,8 +57,12 @@ RUN addgroup -g "$GID" "$USERNAME" \
 # Copy the built Go binary from the builder stage
 COPY --from=go-builder /app/portfolio /app/portfolio
 
+# Ensure the binary is executable
+RUN chmod +x /app/portfolio
+
+# Switch to the non-root user
 USER $USERNAME
-CMD ["./portfolio", "serve", "--http=0.0.0.0:80", "--dir=/data"]
+CMD ["./portfolio", "serve", "--http=0.0.0.0:8090", "--dir=/data"]
 
 FROM backend AS all-in-one
 COPY --from=node-builder /app/dist ./public
