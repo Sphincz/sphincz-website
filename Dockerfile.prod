@@ -62,7 +62,21 @@ RUN chmod +x /app/portfolio
 
 # Switch to the non-root user
 USER $USERNAME
+
+# Expose port 8090 for backend
+EXPOSE 8090
+
+# Default CMD serves from /data, but we will override this in docker-compose
 CMD ["./portfolio", "serve", "--http=0.0.0.0:8090", "--dir=/data"]
 
 FROM backend AS all-in-one
+
+# Switch back to root temporarily to ensure correct permissions on public dir
+USER root
+
 COPY --from=node-builder /app/dist ./public
+# Ensure the non-root user owns the public directory
+RUN chown -R $UID:$GID /app/public
+
+# Switch back to the non-root user
+USER $USERNAME
