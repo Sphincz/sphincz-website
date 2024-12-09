@@ -36,7 +36,7 @@
 	"misc": {
 		"homepage": "Homepage",
 		"loading": "Loading...",
-		"message_error": "An error occurred while sending the message. Please try again later.",
-		"message_success": "Message sent successfully! I'll get back to you as soon as possible."
+		"contact_send_error": "An error occurred while sending the message. Please try again later.",
+		"contact_send_success": "Message sent successfully! I'll get back to you as soon as possible."
 	}
 }
