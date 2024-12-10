@@ -15,7 +15,10 @@ services:
       - "./pb_data:/data"
 
   frontend:
-    image: "ghcr.io/sphincz/sphincz-website-frontend:latest"
+    build:
+        context: .
+        dockerfile: Dockerfile.prod
+        target: frontend
     ports:
       - "3000:80"
     depends_on:
@@ -23,7 +26,7 @@ services:
     env_file:
       - ./.env
     environment:
-      - VITE_API_ADDRESS=http://merda:8090
+      - VITE_API_ADDRESS=http://backend:8090
       - VITE_TURNSTILE_KEY=${VITE_TURNSTILE_KEY}
       - TURNSTILE_SECRET=${TURNSTILE_SECRET}
       - NODE_ENV=production
