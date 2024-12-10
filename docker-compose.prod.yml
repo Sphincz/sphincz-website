@@ -23,7 +23,7 @@ services:
     env_file:
       - ./.env
     environment:
-      - VITE_API_ADDRESS=http://backend:8090
+      - VITE_API_ADDRESS=http://merda:8090
       - VITE_TURNSTILE_KEY=${VITE_TURNSTILE_KEY}
       - TURNSTILE_SECRET=${TURNSTILE_SECRET}
       - NODE_ENV=production

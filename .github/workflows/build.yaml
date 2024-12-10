@@ -5,9 +5,6 @@ on:
     tags:
       - 'v*'
 
-env:
-  VITE_TURNSTILE_KEY: ${{ secrets.VITE_TURNSTILE_KEY }}
-
 jobs:
   backend-lint:
     name: Backend Lint
@@ -105,6 +102,7 @@ jobs:
           VITE_API_ADDRESS: http://localhost:8090
           VITE_PLAUSIBLE_HOST: http://localhost:8001
           VITE_TURNSTILE_KEY: ${{ secrets.VITE_TURNSTILE_KEY }}
+          TURNSTILE_SECRET: ${{ secrets.TURNSTILE_SECRET }}
         run: npm --prefix=frontend run build
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -148,6 +146,11 @@ jobs:
 
       - name: Build and Push Frontend
         uses: docker/build-push-action@v6
+        env:
+          VITE_API_ADDRESS: http://localhost:8090
+          VITE_PLAUSIBLE_HOST: http://localhost:8001
+          VITE_TURNSTILE_KEY: ${{ secrets.VITE_TURNSTILE_KEY }}
+          TURNSTILE_SECRET: ${{ secrets.TURNSTILE_SECRET }}
         with:
           context: .
           file: Dockerfile.prod
