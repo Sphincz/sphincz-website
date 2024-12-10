@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+env:
+  VITE_TURNSTILE_KEY: ${{ secrets.VITE_TURNSTILE_KEY }}
+
 jobs:
   backend-lint:
     name: Backend Lint

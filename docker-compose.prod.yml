@@ -4,20 +4,18 @@ name: "sphincz-website-prod"
 
 services:
   backend:
-    image: "ghcr.io/sphincz/sphincz-website:latest"
+    image: "ghcr.io/sphincz/sphincz-website-backend:latest"
     ports:
       - "8090:8090"
     env_file:
       - ./.env
     environment:
-      CGO_ENABLED: 1
+      - CGO_ENABLED=1
     volumes:
       - "./pb_data:/data"
 
   frontend:
-    build:
-        context: .
-        dockerfile: Dockerfile.prod
+    image: "ghcr.io/sphincz/sphincz-website-frontend:latest"
     ports:
       - "3000:80"
     depends_on:
