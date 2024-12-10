@@ -1,6 +1,6 @@
-#syntax=docker/dockerfile:1.12
+# syntax=docker/dockerfile:1.12
 
-# Build stage for Go backend
+### Go Backend ###
 FROM --platform=$BUILDPLATFORM golang:1.23.4-alpine AS go-builder
 WORKDIR /app
 
@@ -29,7 +29,7 @@ RUN <<EOT
   go build -o portfolio -ldflags='-w -s' -trimpath -tags disable_automigrate
 EOT
 
-# React frontend build stage
+### React Frontend ###
 FROM --platform=$BUILDPLATFORM node:22.8.0-alpine AS node-builder
 WORKDIR /app
 
@@ -62,21 +62,22 @@ RUN chmod +x /app/portfolio
 
 # Switch to the non-root user
 USER $USERNAME
-
-# Expose port 8090 for backend
-EXPOSE 8090
-
-# Default CMD serves from /data, but we will override this in docker-compose
 CMD ["./portfolio", "serve", "--http=0.0.0.0:8090", "--dir=/data"]
 
-FROM backend AS all-in-one
+### NGINX Web Server ###
+FROM nginx:alpine AS frontend
 
-# Switch back to root temporarily to ensure correct permissions on public dir
-USER root
+# Remove the default NGINX configuration file
+RUN rm /etc/nginx/conf.d/default.conf
 
-COPY --from=node-builder /app/dist ./public
-# Ensure the non-root user owns the public directory
-RUN chown -R $UID:$GID /app/public
+# Copy the custom NGINX configuration file
+COPY nginx.conf /etc/nginx/conf.d
 
-# Switch back to the non-root user
-USER $USERNAME
+# Copy the build artifacts from the first stage
+COPY --from=node-builder /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start NGINX (without daemon mode)
+CMD ["nginx", "-g", "daemon off;"]

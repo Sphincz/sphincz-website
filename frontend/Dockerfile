@@ -18,6 +18,3 @@ RUN npm run build
 
 # Expose port 3000 for development (if needed for a dev server)
 EXPOSE 3000
-
-# Default command for running the frontend in production
-CMD ["npm", "start"]

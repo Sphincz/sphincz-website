@@ -1,11 +1,31 @@
 version: "3.9"
 
+name: "sphincz-website-prod"
+
 services:
-  app:
-    container_name: "sphincz-website"
-    image: "ghcr.io/sphincz/sphincz-website"
-    build: .
+  backend:
+    image: "ghcr.io/sphincz/sphincz-website:latest"
     ports:
-      - "8181:80"
+      - "8090:8090"
+    env_file:
+      - ./.env
+    environment:
+      CGO_ENABLED: 1
     volumes:
       - "./pb_data:/data"
+
+  frontend:
+    build:
+        context: .
+        dockerfile: Dockerfile.prod
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    env_file:
+      - ./.env
+    environment:
+      - VITE_API_ADDRESS=http://backend:8090
+      - VITE_TURNSTILE_KEY=${VITE_TURNSTILE_KEY}
+      - TURNSTILE_SECRET=${TURNSTILE_SECRET}
+      - NODE_ENV=production
